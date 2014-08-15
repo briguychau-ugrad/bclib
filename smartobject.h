@@ -35,7 +35,7 @@ public:
 
 protected:
     SmartObject() : _refcount(0) {}
-    SmartObject(const SmartObject* cSource) : _refcount(0) {}
+    SmartObject(const SmartObject& cSource) : _refcount(0) {}
 
 private:
     UINT _refcount;

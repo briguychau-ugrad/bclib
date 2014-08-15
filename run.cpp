@@ -51,5 +51,6 @@ int main()
     spFoo1->bar();
     spFoo2->bar();
     Foo foo = *spFoo1;
+    SmartPointer<Foo> spFoo3(new Foo(*spFoo2)); // Copy Constructor invoked
     return 0;
 }
