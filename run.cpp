@@ -26,30 +26,30 @@
 class Foo : SMARTOBJECT
 {
 public:
-	Foo() : SmartObject()
-	{
-		printf("Constructor!      0x%016llx\n", (ULL)(this));
-	}
+    Foo() : SmartObject()
+    {
+        printf("Constructor!      0x%016llx\n", (ULL)(this));
+    }
     Foo(const Foo &copy) : SmartObject(copy)
     {
         printf("Copy Constructor! 0x%016llx\n", (ULL)(this));
     }
-	virtual ~Foo()
-	{
-		printf("Destructor!       0x%016llx\n", (ULL)(this));
-	}
-	void bar()
-	{
-		printf("Method Call!      0x%016llx\n", (ULL)(this));
-	}
+    virtual ~Foo()
+    {
+        printf("Destructor!       0x%016llx\n", (ULL)(this));
+    }
+    void bar()
+    {
+        printf("Method Call!      0x%016llx\n", (ULL)(this));
+    }
 };
 
 int main()
 {
-	SmartPointer<Foo> spFoo1(new Foo()); // equivalent to spFoo1 = new Foo()
+    SmartPointer<Foo> spFoo1(new Foo()); // equivalent to spFoo1 = new Foo()
     SmartPointer<Foo> spFoo2(spFoo1);
     spFoo1->bar();
     spFoo2->bar();
     Foo foo = *spFoo1;
-	return 0;
+    return 0;
 }
