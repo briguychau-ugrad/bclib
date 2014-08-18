@@ -25,7 +25,7 @@
 
 class SmartObject
 {
-    template<class T> friend class SmartPointer;
+    template<class U> friend class SmartPointer;
 public:
     virtual ~SmartObject() {}
 

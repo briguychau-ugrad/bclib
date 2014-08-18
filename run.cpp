@@ -51,6 +51,11 @@ public:
     virtual ~Bar() { printf("Bar: "); }
 };
 
+class Lol : SMARTOBJECT
+{
+
+};
+
 int main()
 {
     SmartPointer<Foo> spFoo1(new Foo()); // equivalent to spFoo1 = new Foo()
@@ -62,6 +67,9 @@ int main()
     SmartPointer<Foo> spFoo4(new Bar());
     SmartPointer<Bar> spBar1(spFoo4);
     Bar bar = *spBar1;
+
+    SmartPointer<Lol> spLol1(new Lol());
+    //SmartPointer<Bar> spBar2 = spLol1; // This line won't work
 
     return 0;
 }
