@@ -27,19 +27,19 @@ class Foo : SMARTOBJECT
 public:
     Foo() : SmartObject()
     {
-        printf("Constructor!      0x%016llx\n", (ULL)(this));
+        printf("Foo: Constructor!      0x%016llx\n", (ULL)(this));
     }
     Foo(const Foo &copy) : SmartObject(copy)
     {
-        printf("Copy Constructor! 0x%016llx\n", (ULL)(this));
+        printf("Foo: Copy Constructor! 0x%016llx\n", (ULL)(this));
     }
     virtual ~Foo()
     {
-        printf("Destructor!       0x%016llx\n", (ULL)(this));
+        printf("Foo: Destructor!       0x%016llx\n", (ULL)(this));
     }
     void qux()
     {
-        printf("Method Call!      0x%016llx\n", (ULL)(this));
+        printf("Foo: Method Call!      0x%016llx\n", (ULL)(this));
     }
 };
 
@@ -53,11 +53,34 @@ public:
 
 class Lol : SMARTOBJECT
 {
-
+public:
+    Lol() : SmartObject()
+    {
+        printf("Lol: Constructor!      0x%016llx\n", (ULL)(this));
+    }
+    Lol(const Lol &copy) : SmartObject(copy)
+    {
+        printf("Lol: Copy Constructor! 0x%016llx\n", (ULL)(this));
+    }
+    virtual ~Lol()
+    {
+        printf("Lol: Destructor!       0x%016llx\n", (ULL)(this));
+    }
+    void qux()
+    {
+        printf("Lol: Method Call!      0x%016llx\n", (ULL)(this));
+    }
 };
 
-int main()
+class Hai : public Foo, public Lol
 {
+public:
+};
+
+void TestMethod01()
+{
+    printf("Begin Test Method 01\n");
+
     SmartPointer<Foo> spFoo1(new Foo()); // equivalent to spFoo1 = new Foo()
     SmartPointer<Foo> spFoo2(spFoo1);
     spFoo1->qux();
@@ -71,8 +94,23 @@ int main()
     Foo *pFoo = spBar1;
     SmartPointer<Bar> spBar2 = pFoo;
 
-    SmartPointer<Lol> spLol1(new Lol());
-    //SmartPointer<Bar> spBar2 = spLol1; // This line won't work
+    printf("End Test Method 01\n");
+}
 
+void TestMethod02()
+{
+    printf("Begin Test Method 02\n");
+
+    SmartPointer<Foo> spFoo1(new Hai());
+    SmartPointer<Hai> spHai1(spFoo1);
+    SmartPointer<Lol> spLol1(spHai1);
+
+    printf("End Test Method 02\n");
+}
+
+int main()
+{
+    TestMethod01();
+    TestMethod02();
     return 0;
 }
