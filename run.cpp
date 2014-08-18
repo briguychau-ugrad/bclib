@@ -68,6 +68,9 @@ int main()
     SmartPointer<Bar> spBar1(spFoo4);
     Bar bar = *spBar1;
 
+    Foo *pFoo = spBar1;
+    SmartPointer<Bar> spBar2 = pFoo;
+
     SmartPointer<Lol> spLol1(new Lol());
     //SmartPointer<Bar> spBar2 = spLol1; // This line won't work
 
