@@ -37,7 +37,7 @@ public:
     {
         printf("Foo: Destructor!       0x%016llx\n", (ULL)(this));
     }
-    void qux()
+    void qux() const
     {
         printf("Foo: Method Call!      0x%016llx\n", (ULL)(this));
     }
@@ -66,7 +66,7 @@ public:
     {
         printf("Lol: Destructor!       0x%016llx\n", (ULL)(this));
     }
-    void qux()
+    void baz() const
     {
         printf("Lol: Method Call!      0x%016llx\n", (ULL)(this));
     }
@@ -104,6 +104,8 @@ void TestMethod02()
     SmartPointer<Foo> spFoo1(new Hai());
     SmartPointer<Hai> spHai1(spFoo1);
     SmartPointer<Lol> spLol1(spHai1);
+
+    SmartPointer<SmartObject> spSO1(spLol1);
 
     printf("End Test Method 02\n");
 }

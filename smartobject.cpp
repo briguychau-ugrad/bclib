@@ -19,11 +19,6 @@
  */
 #include "smart.h"
 
-UINT SmartObject::IncReferenceCount()
-{
-    return ++_refcount;
-}
-
 UINT SmartObject::DecReferenceCount()
 {
     if (_refcount)
