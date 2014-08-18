@@ -89,9 +89,10 @@ public:
     T **operator &();
     T operator *();
 
-// Cast to other types
+// Cast to/from other types
     template<class U> SmartPointer& operator =(const SmartPointer<U> &cSource);
     template<class U> SmartPointer& operator =(U *pSource);
+    template<class U> operator U *();
 
 private:
     T *_pObject;
@@ -144,6 +145,32 @@ SmartPointer<T>& SmartPointer<T>::operator=(T *pSource)
 }
 
 template<class T>
+SmartPointer<T>::operator T *()
+{
+    return _pObject;
+}
+
+template<class T>
+T *SmartPointer<T>::operator ->()
+{
+    return _pObject;
+}
+
+template<class T>
+T **SmartPointer<T>::operator &()
+{
+    return &_pObject;
+}
+
+template<class T>
+T SmartPointer<T>::operator *()
+{
+    return *_pObject;
+}
+
+#endif
+
+template<class T>
 template<class U>
 SmartPointer<T>& SmartPointer<T>::operator =(const SmartPointer<U> &cSource)
 {
@@ -176,27 +203,8 @@ SmartPointer<T>& SmartPointer<T>::operator =(U *pSource)
 }
 
 template<class T>
-SmartPointer<T>::operator T *()
+template<class U>
+SmartPointer<T>::operator U *()
 {
-    return _pObject;
+    return static_cast<U *>(_pObject);
 }
-
-template<class T>
-T *SmartPointer<T>::operator ->()
-{
-    return _pObject;
-}
-
-template<class T>
-T **SmartPointer<T>::operator &()
-{
-    return &_pObject;
-}
-
-template<class T>
-T SmartPointer<T>::operator *()
-{
-    return *_pObject;
-}
-
-#endif
