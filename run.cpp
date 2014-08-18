@@ -17,8 +17,7 @@
  *
  * run.h
  */
-#include "smart.h"
-
+#include "smart.h" 
 #include <stdio.h>
 
 #define ULL unsigned long long
@@ -38,19 +37,31 @@ public:
     {
         printf("Destructor!       0x%016llx\n", (ULL)(this));
     }
-    void bar()
+    void qux()
     {
         printf("Method Call!      0x%016llx\n", (ULL)(this));
     }
+};
+
+class Bar : public Foo
+{
+public:
+    Bar() : Foo() { printf("\t -> From Bar\n"); }
+    Bar(const Bar &copy) : Foo(copy) { printf("\t -> From Bar\n"); }
+    virtual ~Bar() { printf("Bar: "); }
 };
 
 int main()
 {
     SmartPointer<Foo> spFoo1(new Foo()); // equivalent to spFoo1 = new Foo()
     SmartPointer<Foo> spFoo2(spFoo1);
-    spFoo1->bar();
-    spFoo2->bar();
+    spFoo1->qux();
+    spFoo2->qux();
     Foo foo = *spFoo1;
-    SmartPointer<Foo> spFoo3(new Foo(*spFoo2)); // Copy Constructor invoked
+    SmartPointer<Foo> spFoo3(new Foo(*spFoo2)); // Copy Constructor invoked*/
+    SmartPointer<Foo> spFoo4(new Bar());
+    SmartPointer<Bar> spBar1(spFoo4);
+    Bar bar = *spBar1;
+
     return 0;
 }

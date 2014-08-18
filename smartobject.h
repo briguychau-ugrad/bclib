@@ -25,11 +25,9 @@
 
 class SmartObject
 {
+    template<class T> friend class SmartPointer;
 public:
     virtual ~SmartObject() {}
-
-    UINT IncReferenceCount();
-    UINT DecReferenceCount();
 
     UINT GetReferenceCount() const { return _refcount; }
 
@@ -39,6 +37,9 @@ protected:
 
 private:
     UINT _refcount;
+
+    UINT IncReferenceCount();
+    UINT DecReferenceCount();
 };
 
 #endif

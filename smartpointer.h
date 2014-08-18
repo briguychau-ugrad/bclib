@@ -20,21 +20,65 @@
 #ifndef SMARTPOINTER_H
 #define SMARTPOINTER_H
 
-#include <exception>
-
 #ifndef NULL
 #define NULL 0
-#endif 
+#endif
+
+#ifndef SMARTPOINTER_EXCEPTION
+#define SMARTPOINTER_EXCEPTION "Cannot assign object to SmartPointer; call remove() first."
+#endif
 
 template<class T>
 class SmartPointer
 {
-public:
-    SmartPointer();
-    SmartPointer(T *pObject);
-    SmartPointer(const SmartPointer &cSource);
+    template<class U> friend class SmartPointer;
 
-    virtual ~SmartPointer();
+public:
+    SmartPointer() : _pObject(NULL) {}
+
+    SmartPointer(const SmartPointer &cSource) :
+        _pObject(cSource._pObject)
+    {
+        if (_pObject)
+        {
+            static_cast<SmartObject *>(_pObject)->IncReferenceCount();
+        }
+    }
+
+    SmartPointer(T *pSource) :
+        _pObject(pSource)
+    {
+        if (_pObject)
+        {
+            static_cast<SmartObject *>(_pObject)->IncReferenceCount();
+        }
+    }
+
+    template<class U> SmartPointer(const SmartPointer<U> cSource) :
+        _pObject(static_cast<T *>(cSource._pObject))
+    {
+        if (_pObject)
+        {
+            static_cast<SmartObject *>(_pObject)->IncReferenceCount();
+        }
+    }
+
+    template<class U> SmartPointer(U *pSource) :
+        _pObject(static_cast<T *>(pSource))
+    {
+        if (_pObject)
+        {
+            static_cast<SmartObject *>(_pObject)->IncReferenceCount();
+        }
+    }
+
+    virtual ~SmartPointer()
+    {
+        if (_pObject && !static_cast<SmartObject *>(_pObject)->DecReferenceCount())
+        {
+            delete _pObject;
+        }
+    }
 
     T *remove();
 
@@ -45,52 +89,13 @@ public:
     T **operator &();
     T operator *();
 
+// Cast to other types
+    template<class U> SmartPointer& operator =(const SmartPointer<U> &cSource);
+    template<class U> SmartPointer& operator =(U *pSource);
+
 private:
     T *_pObject;
 };
-
-extern class SMART_POINTER_ALREADY_ASSIGNED : public std::exception
-{
-public:
-    virtual const char* what() const throw()
-    {
-        return "Cannot assign object to SmartPointer; call remove() first.";
-    }
-} already_assigned;
-
-template<class T>
-SmartPointer<T>::SmartPointer() :
-    _pObject(NULL)
-{}
-
-template<class T>
-SmartPointer<T>::SmartPointer(T *pObject) :
-    _pObject(pObject)
-{
-    if (_pObject)
-    {
-        static_cast<SmartObject *>(_pObject)->IncReferenceCount();
-    }
-}
-
-template<class T>
-SmartPointer<T>::SmartPointer(const SmartPointer &cSource) :
-    _pObject(cSource._pObject)
-{
-    if (_pObject)
-    {
-        static_cast<SmartObject *>(_pObject)->IncReferenceCount();
-    }
-}
-
-template<class T>
-SmartPointer<T>::~SmartPointer()
-{
-    if (_pObject && !static_cast<SmartObject *>(_pObject)->DecReferenceCount())
-    {
-        delete _pObject;
-    }
-}
 
 template<class T>
 T *SmartPointer<T>::remove()
@@ -110,7 +115,7 @@ SmartPointer<T>& SmartPointer<T>::operator=(const SmartPointer &cSource)
 {
     if (_pObject)
     {
-        throw already_assigned;
+        throw SMARTPOINTER_EXCEPTION;
     }
     if (this != &cSource)
     {
@@ -128,9 +133,41 @@ SmartPointer<T>& SmartPointer<T>::operator=(T *pSource)
 {
     if (_pObject)
     {
-        throw already_assigned;
+        throw SMARTPOINTER_EXCEPTION;
     }
     _pObject = pSource;
+    if (_pObject)
+    {
+        static_cast<SmartObject *>(_pObject)->IncReferenceCount();
+    }
+    return *this;
+}
+
+template<class T>
+template<class U>
+SmartPointer<T>& SmartPointer<T>::operator =(const SmartPointer<U> &cSource)
+{
+    if (_pObject)
+    {
+        throw SMARTPOINTER_EXCEPTION;
+    }
+    _pObject = static_cast<T *>(cSource._pObject);
+    if (_pObject)
+    {
+        static_cast<SmartObject *>(_pObject)->IncReferenceCount();
+    }
+    return *this;
+}
+
+template<class T>
+template<class U>
+SmartPointer<T>& SmartPointer<T>::operator =(U *pSource)
+{
+    if (_pObject)
+    {
+        throw SMARTPOINTER_EXCEPTION;
+    }
+    _pObject = static_cast<T *>(pSource);
     if (_pObject)
     {
         static_cast<SmartObject *>(_pObject)->IncReferenceCount();
