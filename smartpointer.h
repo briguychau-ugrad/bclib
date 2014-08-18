@@ -168,8 +168,6 @@ T SmartPointer<T>::operator *()
     return *_pObject;
 }
 
-#endif
-
 template<class T>
 template<class U>
 SmartPointer<T>& SmartPointer<T>::operator =(const SmartPointer<U> &cSource)
@@ -208,3 +206,5 @@ SmartPointer<T>::operator U *()
 {
     return static_cast<U *>(_pObject);
 }
+
+#endif
