@@ -114,25 +114,26 @@ T * SmartArray<T>::remove(UINT index)
 template<class T>
 bool SmartArray<T>::doubleCapacity()
 {
-    UINT oldCapacity = _capacity;
-    _capacity <<= 1;
-    T * oldContents = _pContents;
-    _pContents = (T *) std::malloc(_capacity * sizeof(T));
+    UINT newCapacity = _capacity << 1;
+    T * pNewContents = (T *) std::malloc(newCapacity * sizeof(T));
 
-    if (_pContents == NULL)
+    if (pNewContents == NULL)
     {
-        // Revert to old state
-        _capacity = oldCapacity;
-        _pContents = oldContents;
+        // unable to allocate memory
         return false;
     }
 
-    for (UINT i = 0; i < oldCapacity; i++)
+    for (UINT i = 0; i < _capacity; i++)
     {
-        new(_pContents + i) T(oldContents[i]);
-        static_cast<SmartObject *>(_pContents + i)->IncReferenceCount();
+        new(pNewContents + i) T(_pContents[i]);
+        static_cast<SmartObject *>(pNewContents + i)->IncReferenceCount();
     }
-    std::free(oldContents);
+
+    std::free(_pContents);
+
+    _pContents = pNewContents;
+    _capacity = newCapacity;
+
     return true;
 }
 
