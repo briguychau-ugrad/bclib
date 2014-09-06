@@ -15,35 +15,6 @@
  *
  * Author information at http://www.brianchau.ca/
  *
- * smartobject.h
+ * smartarray.cpp
  */
-#ifndef SMARTOBJECT_H
-#define SMARTOBJECT_H
-
-#ifndef UINT
-#define UINT unsigned int
-#endif
-
-#define SMARTOBJECT public virtual SmartObject
-
-class SmartObject
-{
-    template<class U> friend class SmartPointer;
-    template<class U> friend class SmartArray;
-
-public:
-    virtual ~SmartObject() {}
-
-protected:
-    SmartObject() : _refcount(0) {}
-    SmartObject(const SmartObject& cSource) : _refcount(0) {}
-
-private:
-    UINT _refcount;
-
-    UINT GetReferenceCount() const { return _refcount; }
-    UINT IncReferenceCount() { return ++_refcount; }
-    UINT DecReferenceCount();
-};
-
-#endif
+#include "smart.h"
