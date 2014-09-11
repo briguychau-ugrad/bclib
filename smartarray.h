@@ -21,7 +21,6 @@
 #define SMARTARRAY_H
 
 #include <new>
-#include <stdio.h>
 
 #ifndef NULL
 #define NULL 0
@@ -55,8 +54,8 @@ public:
     virtual ~SmartArray();
 
     bool add(T & obj);
-    bool at(UINT index, T * pObj_out);
-    bool remove(UINT index, T * pObj_out);
+    bool at(UINT index, T & obj_out);
+    bool remove(UINT index, T & obj_out);
 
 private:
     UINT _capacity;
@@ -106,27 +105,27 @@ bool SmartArray<T, U>::add(T & obj)
 }
 
 template<class T, class U>
-bool SmartArray<T, U>::at(UINT index, T * pObj_out)
+bool SmartArray<T, U>::at(UINT index, T & obj_out)
 {
     if (index >= _size)
     {
         return false;
     }
 
-    U::assign(pObj_out, _pContents + index);
+    U::assign(& obj_out, _pContents + index);
 
     return true;
 }
 
 template<class T, class U>
-bool SmartArray<T, U>::remove(UINT index, T * pObj_out)
+bool SmartArray<T, U>::remove(UINT index, T & obj_out)
 {
     if (index >= _size)
     {
         return false;
     }
 
-    U::assign(pObj_out, _pContents + index);
+    U::assign(& obj_out, _pContents + index);
 
     _size--;
 
