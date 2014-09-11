@@ -114,13 +114,9 @@ void TestMethod03()
 {
     printf("Begin Test Method 03\n");
 
-    SmartArray<Foo> spFooArray;
-    Foo foo;
-    foo.qux();
-    spFooArray.add(foo);
-
-    SmartPointer<Foo> pFoo = spFooArray.at(0);
-    pFoo->qux();
+    SmartArray<int> array;
+    int x = 6;
+    array.add(x);
 
     printf("End Test Method 03\n");
 }

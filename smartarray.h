@@ -20,9 +20,8 @@
 #ifndef SMARTARRAY_H
 #define SMARTARRAY_H
 
-#include <algorithm>
-#include <cstdio>
-#include <cstdlib>
+#include <new>
+#include <stdio.h>
 
 #ifndef NULL
 #define NULL 0
@@ -37,24 +36,27 @@
 #endif
 
 template<class T>
-class SmartArray
+class SmartArrayTraits
+{
+public:
+    static void assign(T * pTo, T * pFrom)
+    {
+        *pTo = *pFrom;
+    }
+};
+
+template<class T, class U = SmartArrayTraits<T> >
+class SmartArray : SMARTOBJECT
 {
 public:
     SmartArray();
+    SmartArray(const SmartArray &cSource);
 
-    virtual ~SmartArray()
-    {
-        for (UINT i = 0; i < _size; i++)
-        {
-            (_pContents + i)->~T();
-        }
-
-        std::free(_pContents);
-    }
+    virtual ~SmartArray();
 
     bool add(T & obj);
-    T * at(UINT index);
-    T * remove(UINT index);
+    bool at(UINT index, T * pObj_out);
+    bool remove(UINT index, T * pObj_out);
 
 private:
     UINT _capacity;
@@ -64,72 +66,93 @@ private:
     bool doubleCapacity();
 };
 
-template<class T>
-SmartArray<T>::SmartArray() :
-    _capacity(8),
+template<class T, class U>
+SmartArray<T, U>::SmartArray() :
+    _capacity(16),
     _size(0)
 {
-    _pContents = (T *) std::malloc(_capacity * sizeof(T));
+    _pContents = new T[_capacity];
 }
 
-template<class T>
-bool SmartArray<T>::add(T & obj)
+template<class T, class U>
+SmartArray<T, U>::SmartArray(const SmartArray &cSource) :
+    _capacity(cSource._capacity),
+    _size(cSource._size)
 {
-    if (_capacity == _size && !doubleCapacity())
+    _pContents = new T[_capacity];
+
+    for (UINT i = 0; i < _size; i++)
+    {
+        U::assign(_pContents + i, cSource._pContents + i);
+    }
+}
+
+template<class T, class U>
+SmartArray<T, U>::~SmartArray()
+{
+    delete[] _pContents;
+}
+
+template<class T, class U>
+bool SmartArray<T, U>::add(T & obj)
+{
+    if (_size == _capacity && !doubleCapacity())
     {
         return false;
     }
-    new(_pContents + _size) T(obj);
 
-    // Keep a reference count of at least 1 for all objects in the array,
-    // since a SmartPointer may point to an object in here
-    static_cast<SmartObject *>(_pContents + _size++)->IncReferenceCount();
+    U::assign(_pContents + _size++, & obj);
+    return true;
+}
+
+template<class T, class U>
+bool SmartArray<T, U>::at(UINT index, T * pObj_out)
+{
+    if (index >= _size)
+    {
+        return false;
+    }
+
+    U::assign(pObj_out, _pContents + index);
 
     return true;
 }
 
-template<class T>
-T * SmartArray<T>::at(UINT index)
+template<class T, class U>
+bool SmartArray<T, U>::remove(UINT index, T * pObj_out)
 {
     if (index >= _size)
     {
-        return NULL;
-    }
-
-    return _pContents + index;
-}
-
-template<class T>
-T * SmartArray<T>::remove(UINT index)
-{
-    if (index >= _size)
-    {
-        return NULL;
-    }
-    
-    // TODO remove item from the array
-    return _pContents + index;
-}
-
-template<class T>
-bool SmartArray<T>::doubleCapacity()
-{
-    UINT newCapacity = _capacity << 1;
-    T * pNewContents = (T *) std::malloc(newCapacity * sizeof(T));
-
-    if (pNewContents == NULL)
-    {
-        // unable to allocate memory
         return false;
     }
 
-    for (UINT i = 0; i < _capacity; i++)
+    U::assign(pObj_out, _pContents + index);
+
+    _size--;
+
+    for (int i = index; i < _size; i++)
     {
-        new(pNewContents + i) T(_pContents[i]);
-        static_cast<SmartObject *>(pNewContents + i)->IncReferenceCount();
+        U::assign(_pContents + i, _pContents + i + 1);
     }
 
-    std::free(_pContents);
+    return true;
+}
+
+template<class T, class U>
+bool SmartArray<T, U>::doubleCapacity()
+{
+    UINT newCapacity = _capacity << 1;
+    T * pNewContents = new (std::nothrow) T[newCapacity];
+
+    // Check that we were able to allocate memory
+    if (!pNewContents) return false;
+
+    for (UINT i = 0; i < _size; i++)
+    {
+        U::assign(pNewContents + i, _pContents + i);
+    }
+
+    delete[] _pContents;
 
     _pContents = pNewContents;
     _capacity = newCapacity;

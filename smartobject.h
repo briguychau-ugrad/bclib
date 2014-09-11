@@ -29,19 +29,20 @@
 class SmartObject
 {
     template<class U> friend class SmartPointer;
-    template<class U> friend class SmartArray;
-
-public:
-    virtual ~SmartObject() {}
+    template<class U, class V> friend class SmartArray;
 
 protected:
     SmartObject() : _refcount(0) {}
     SmartObject(const SmartObject& cSource) : _refcount(0) {}
 
+public:
+    virtual ~SmartObject() {}
+
 private:
     UINT _refcount;
 
     UINT GetReferenceCount() const { return _refcount; }
+    void SetReferenceCount(UINT refcount) { _refcount = refcount; }
     UINT IncReferenceCount() { return ++_refcount; }
     UINT DecReferenceCount();
 };
