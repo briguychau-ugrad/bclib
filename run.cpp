@@ -115,7 +115,7 @@ void TestMethod03()
 {
     printf("Begin Test Method 03\n");
 
-    SmartArray<int> array;
+    DArray<int> array;
     int x = 6;
     array.add(x);
 

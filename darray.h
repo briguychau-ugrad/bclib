@@ -15,11 +15,11 @@
 //
 // Author information at http://www.brianchau.ca/
 //
-// smartarray.h
+// darray.h
 //------------------------------------------------------------------------------
 
-#ifndef SMARTARRAY_H
-#define SMARTARRAY_H
+#ifndef DARRAY_H
+#define DARRAY_H
 
 #include <new>
 
@@ -36,7 +36,7 @@
 #endif
 
 template<class T>
-class SmartArrayTraits
+class DArrayTraits
 {
 public:
     static inline void assign(T * pTo, T * pFrom)
@@ -45,14 +45,14 @@ public:
     }
 };
 
-template<class T, class U = SmartArrayTraits<T> >
-class SmartArray : SMARTOBJECT
+template<class T, class U = DArrayTraits<T> >
+class DArray : SMARTOBJECT
 {
 public:
-    SmartArray();
-    SmartArray(const SmartArray &cSource);
+    DArray();
+    DArray(const DArray &cSource);
 
-    virtual ~SmartArray();
+    virtual ~DArray();
 
     bool add(T & obj);
     bool at(UINT index, T & obj_out);
@@ -67,7 +67,7 @@ private:
 };
 
 template<class T, class U>
-SmartArray<T, U>::SmartArray() :
+DArray<T, U>::DArray() :
     _capacity(16),
     _size(0)
 {
@@ -75,7 +75,7 @@ SmartArray<T, U>::SmartArray() :
 }
 
 template<class T, class U>
-SmartArray<T, U>::SmartArray(const SmartArray &cSource) :
+DArray<T, U>::DArray(const DArray &cSource) :
     _capacity(cSource._capacity),
     _size(cSource._size)
 {
@@ -88,13 +88,13 @@ SmartArray<T, U>::SmartArray(const SmartArray &cSource) :
 }
 
 template<class T, class U>
-SmartArray<T, U>::~SmartArray()
+DArray<T, U>::~DArray()
 {
     delete[] _pContents;
 }
 
 template<class T, class U>
-bool SmartArray<T, U>::add(T & obj)
+bool DArray<T, U>::add(T & obj)
 {
     if (_size == _capacity && !doubleCapacity())
     {
@@ -106,7 +106,7 @@ bool SmartArray<T, U>::add(T & obj)
 }
 
 template<class T, class U>
-bool SmartArray<T, U>::at(UINT index, T & obj_out)
+bool DArray<T, U>::at(UINT index, T & obj_out)
 {
     if (index >= _size)
     {
@@ -119,7 +119,7 @@ bool SmartArray<T, U>::at(UINT index, T & obj_out)
 }
 
 template<class T, class U>
-bool SmartArray<T, U>::remove(UINT index, T & obj_out)
+bool DArray<T, U>::remove(UINT index, T & obj_out)
 {
     if (index >= _size)
     {
@@ -139,7 +139,7 @@ bool SmartArray<T, U>::remove(UINT index, T & obj_out)
 }
 
 template<class T, class U>
-bool SmartArray<T, U>::doubleCapacity()
+bool DArray<T, U>::doubleCapacity()
 {
     UINT newCapacity = _capacity << 1;
     T * pNewContents = new (std::nothrow) T[newCapacity];

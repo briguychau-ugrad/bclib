@@ -18,5 +18,5 @@
  * smart.h
  */
 #include "smartobject.h"
-#include "smartarray.h"
+#include "darray.h"
 #include "smartpointer.h"
