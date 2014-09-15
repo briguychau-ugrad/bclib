@@ -149,4 +149,4 @@ bool DArray<T, U>::doubleCapacity()
     return true;
 }
 
-#endif
+#endif // DARRAY_H_BCLIB

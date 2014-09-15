@@ -33,4 +33,4 @@
 #define UINT unsigned int
 #endif
 
-#endif
+#endif // HELPERS_H_BCLIB

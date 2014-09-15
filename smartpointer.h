@@ -206,4 +206,4 @@ SmartPointer<T>::operator U *()
     return static_cast<U *>(_pObject);
 }
 
-#endif
+#endif // SMARTPOINTER_H_BCLIB

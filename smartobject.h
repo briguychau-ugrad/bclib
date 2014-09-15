@@ -54,4 +54,4 @@ private:
     }
 };
 
-#endif
+#endif // SMARTOBJECT_H_BCLIB
