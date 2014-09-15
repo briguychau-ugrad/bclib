@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// C++ Smart Object Library
+// C++ Brian Chau Helper Library
 //
 // Copyright (c) Brian Chau, 2014
 //
@@ -18,12 +18,10 @@
 // smartpointer.h
 //------------------------------------------------------------------------------
 
-#ifndef SMARTPOINTER_H
-#define SMARTPOINTER_H
+#ifndef SMARTPOINTER_H_BCLIB
+#define SMARTPOINTER_H_BCLIB
 
-#ifndef NULL
-#define NULL 0
-#endif
+#include "helpers.h"
 
 #ifndef SMARTPOINTER_EXCEPTION
 #define SMARTPOINTER_EXCEPTION "Cannot assign object to SmartPointer; call remove() first."

@@ -15,43 +15,9 @@
 //
 // Author information at http://www.brianchau.ca/
 //
-// smartobject.h
+// bclib.h
 //------------------------------------------------------------------------------
 
-#ifndef SMARTOBJECT_H_BCLIB
-#define SMARTOBJECT_H_BCLIB
-
-#include "helpers.h"
-
-#define SMARTOBJECT public virtual SmartObject
-
-class SmartObject
-{
-    template<class U> friend class SmartPointer;
-    template<class U, class V> friend class SmartArray;
-
-protected:
-    SmartObject() : _refcount(0) {}
-    SmartObject(const SmartObject& cSource) : _refcount(0) {}
-
-public:
-    virtual ~SmartObject() {}
-
-private:
-    UINT _refcount;
-
-    UINT GetReferenceCount() const { return _refcount; }
-    void SetReferenceCount(UINT refcount) { _refcount = refcount; }
-    UINT IncReferenceCount() { return ++_refcount; }
-
-    UINT DecReferenceCount()
-    {
-        if (_refcount)
-        {
-            _refcount--;
-        }
-        return _refcount;
-    }
-};
-
-#endif
+#include "smartobject.h"
+#include "smartpointer.h"
+#include "darray.h"

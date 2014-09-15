@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// C++ Smart Object Library
+// C++ Brian Chau Helper Library
 //
 // Copyright (c) Brian Chau, 2014
 //
@@ -18,22 +18,11 @@
 // darray.h
 //------------------------------------------------------------------------------
 
-#ifndef DARRAY_H
-#define DARRAY_H
+#ifndef DARRAY_H_BCLIB
+#define DARRAY_H_BCLIB
 
 #include <new>
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-#ifndef BYTE
-#define BYTE unsigned char
-#endif
-
-#ifndef UINT
-#define UINT unsigned int
-#endif
+#include "helpers.h"
 
 template<class T>
 class DArrayTraits

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// C++ Smart Object Library
+// C++ Brian Chau Helper Library
 //
 // Copyright (c) Brian Chau, 2014
 //
@@ -18,7 +18,7 @@
 // run.cpp
 //------------------------------------------------------------------------------
 
-#include "smart.h" 
+#include "bclib.h" 
 #include <stdio.h>
 
 #define ULL unsigned long long
