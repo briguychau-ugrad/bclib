@@ -22,15 +22,16 @@
 #define SMARTPOINTER_H_BCLIB
 
 #include "helpers.h"
+#include <stdio.h>
 
 #ifndef SMARTPOINTER_EXCEPTION
 #define SMARTPOINTER_EXCEPTION "Cannot assign object to SmartPointer; call remove() first."
 #endif
 
-template<class T>
+template<typename T>
 class SmartPointer
 {
-    template<class U> friend class SmartPointer;
+    template<typename U> friend class SmartPointer;
 
 public:
     SmartPointer() : _pObject(NULL) {}
@@ -53,7 +54,7 @@ public:
         }
     }
 
-    template<class U> SmartPointer(const SmartPointer<U> cSource) :
+    template<typename U> SmartPointer(const SmartPointer<U> cSource) :
         _pObject(static_cast<T *>(cSource._pObject))
     {
         if (_pObject)
@@ -62,7 +63,7 @@ public:
         }
     }
 
-    template<class U> SmartPointer(U *pSource) :
+    template<typename U> SmartPointer(U *pSource) :
         _pObject(static_cast<T *>(pSource))
     {
         if (_pObject)
@@ -81,24 +82,24 @@ public:
 
     T *remove();
 
-    SmartPointer& operator =(const SmartPointer &cSource);
-    SmartPointer& operator =(T *pSource);
+    SmartPointer & operator =(const SmartPointer &cSource);
+    SmartPointer & operator =(T *pSource);
     operator T *();
-    T *operator ->();
-    T **operator &();
+    T * operator ->();
+    T ** operator &();
     T operator *();
 
 // Cast to/from other types
-    template<class U> SmartPointer& operator =(const SmartPointer<U> &cSource);
-    template<class U> SmartPointer& operator =(U *pSource);
-    template<class U> operator U *();
+    template<typename U> SmartPointer& operator =(const SmartPointer<U> &cSource);
+    template<typename U> SmartPointer& operator =(U *pSource);
+    template<typename U> operator U *();
 
 private:
     T *_pObject;
 };
 
-template<class T>
-T *SmartPointer<T>::remove()
+template<typename T>
+T * SmartPointer<T>::remove()
 {
     if (!_pObject)
     {
@@ -110,8 +111,8 @@ T *SmartPointer<T>::remove()
     return pTemp;
 }
 
-template<class T>
-SmartPointer<T>& SmartPointer<T>::operator=(const SmartPointer &cSource)
+template<typename T>
+SmartPointer<T> & SmartPointer<T>::operator=(const SmartPointer &cSource)
 {
     if (_pObject)
     {
@@ -128,8 +129,8 @@ SmartPointer<T>& SmartPointer<T>::operator=(const SmartPointer &cSource)
     return *this;
 }
 
-template<class T>
-SmartPointer<T>& SmartPointer<T>::operator=(T *pSource)
+template<typename T>
+SmartPointer<T> & SmartPointer<T>::operator=(T *pSource)
 {
     if (_pObject)
     {
@@ -143,33 +144,33 @@ SmartPointer<T>& SmartPointer<T>::operator=(T *pSource)
     return *this;
 }
 
-template<class T>
+template<typename T>
 SmartPointer<T>::operator T *()
 {
     return _pObject;
 }
 
-template<class T>
-T *SmartPointer<T>::operator ->()
+template<typename T>
+T * SmartPointer<T>::operator ->()
 {
     return _pObject;
 }
 
-template<class T>
-T **SmartPointer<T>::operator &()
+template<typename T>
+T ** SmartPointer<T>::operator &()
 {
     return &_pObject;
 }
 
-template<class T>
+template<typename T>
 T SmartPointer<T>::operator *()
 {
     return *_pObject;
 }
 
-template<class T>
-template<class U>
-SmartPointer<T>& SmartPointer<T>::operator =(const SmartPointer<U> &cSource)
+template<typename T>
+template<typename U>
+SmartPointer<T> & SmartPointer<T>::operator =(const SmartPointer<U> &cSource)
 {
     if (_pObject)
     {
@@ -183,9 +184,9 @@ SmartPointer<T>& SmartPointer<T>::operator =(const SmartPointer<U> &cSource)
     return *this;
 }
 
-template<class T>
-template<class U>
-SmartPointer<T>& SmartPointer<T>::operator =(U *pSource)
+template<typename T>
+template<typename U>
+SmartPointer<T> & SmartPointer<T>::operator =(U *pSource)
 {
     if (_pObject)
     {
@@ -199,8 +200,8 @@ SmartPointer<T>& SmartPointer<T>::operator =(U *pSource)
     return *this;
 }
 
-template<class T>
-template<class U>
+template<typename T>
+template<typename U>
 SmartPointer<T>::operator U *()
 {
     return static_cast<U *>(_pObject);

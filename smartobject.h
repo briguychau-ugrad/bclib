@@ -27,8 +27,8 @@
 
 class SmartObject
 {
-    template<class U> friend class SmartPointer;
-    template<class U, class V> friend class SmartArray;
+    template<typename U> friend class SmartPointer;
+    template<typename U, typename V> friend class SmartArray;
 
 protected:
     SmartObject() : _refcount(0) {}
