@@ -113,12 +113,16 @@ void TestMethod02()
     printf("End Test Method 02\n");
 }
 
+void fn(Foo * & pFoo) {
+    pFoo = new Foo();
+}
+
 void TestMethod03()
 {
     printf("Begin Test Method 03\n");
 
     SmartPointer<Foo> spFoo1;
-    (Foo *&)(spFoo1) = new Foo();
+    fn(spFoo1);
 
     printf("End Test Method 03\n");
 }
