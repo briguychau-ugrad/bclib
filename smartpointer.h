@@ -28,6 +28,8 @@
 #define SMARTPOINTER_EXCEPTION "Cannot assign object to SmartPointer; call remove() first."
 #endif
 
+namespace bclib {
+
 template<typename T>
 class SmartPointer : SMARTOBJECT
 {
@@ -213,5 +215,7 @@ SmartPointer<T>::operator U *()
 {
     return static_cast<U *>(_pObject);
 }
+
+} // namespace bclib
 
 #endif // SMARTPOINTER_H_BCLIB

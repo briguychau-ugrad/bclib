@@ -25,6 +25,8 @@
 
 #define SMARTOBJECT public virtual SmartObject
 
+namespace bclib {
+
 class SmartObject
 {
     template<typename U> friend class SmartPointer;
@@ -53,5 +55,7 @@ private:
         return _refcount;
     }
 };
+
+} // namespace bclib
 
 #endif // SMARTOBJECT_H_BCLIB

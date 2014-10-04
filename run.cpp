@@ -25,6 +25,8 @@
 
 #define ULL unsigned long long
 
+using namespace bclib;
+
 class Foo : SMARTOBJECT
 {
 public:
