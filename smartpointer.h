@@ -29,7 +29,7 @@
 #endif
 
 template<typename T>
-class SmartPointer
+class SmartPointer : SMARTOBJECT
 {
     template<typename U> friend class SmartPointer;
 
@@ -85,6 +85,7 @@ public:
     SmartPointer & operator =(const SmartPointer &cSource);
     SmartPointer & operator =(T *pSource);
     operator T *();
+    operator T * &();
     T * operator ->();
     T ** operator &();
     T operator *();
@@ -146,6 +147,12 @@ SmartPointer<T> & SmartPointer<T>::operator=(T *pSource)
 
 template<typename T>
 SmartPointer<T>::operator T *()
+{
+    return _pObject;
+}
+
+template<typename T>
+SmartPointer<T>::operator T * &()
 {
     return _pObject;
 }

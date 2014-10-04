@@ -20,6 +20,8 @@
 
 #include "bclib.h" 
 #include <stdio.h>
+#include <algorithm>
+#include <vector>
 
 #define ULL unsigned long long
 
@@ -115,9 +117,8 @@ void TestMethod03()
 {
     printf("Begin Test Method 03\n");
 
-    DArray<int> array;
-    int x = 6;
-    array.add(x);
+    SmartPointer<Foo> spFoo1;
+    (Foo *&)(spFoo1) = new Foo();
 
     printf("End Test Method 03\n");
 }

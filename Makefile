@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# C++ Smart Object Library
+# C++ Brian Chau Helper Library
 #
 # Copyright (c) Brian Chau, 2014
 #
@@ -20,9 +20,8 @@
 # Reminder that Makefile must use tabs and not spaces
 #-------------------------------------------------------------------------------
 
-
 CC=g++
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -std=c++11
 
 all: clean run.o
 	$(CC) run.o
