@@ -20,6 +20,7 @@
 
 #include "bclib.h" 
 #include <stdio.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <vector>
 
@@ -27,7 +28,7 @@
 
 using namespace bclib;
 
-class Foo : SMARTOBJECT
+class Foo : public SMARTOBJECT
 {
 public:
     Foo() : SmartObject()
@@ -56,7 +57,7 @@ public:
     virtual ~Bar() { printf("Bar: "); }
 };
 
-class Lol : SMARTOBJECT
+class Lol : public SMARTOBJECT
 {
 public:
     Lol() : SmartObject()
@@ -81,6 +82,10 @@ class Hai : public Foo, public Lol
 {
 public:
 };
+
+void printrefcount(UINT i) {
+    printf("%u\n", i);
+}
 
 void TestMethod01()
 {
@@ -115,24 +120,40 @@ void TestMethod02()
     printf("End Test Method 02\n");
 }
 
-void fn(Foo * & pFoo) {
-    pFoo = new Foo();
+void fn(sptr<Foo> & spFoo) {
+    printf("Begin fn\n");
+    spFoo = new Foo();
+    printf("End fn\n");
 }
 
 void TestMethod03()
 {
     printf("Begin Test Method 03\n");
 
-    SmartPointer<Foo> spFoo1;
+    sptr<Foo> spFoo1;
     fn(spFoo1);
 
     printf("End Test Method 03\n");
 }
+/*
+void TestMethod04()
+{
+    printf("Begin Test Method 04\n");
 
+    Foo * pFoo1 = new Foo[10];
+    Foo * pFoo2 = (Foo *)malloc(10 * sizeof(Foo));
+
+    delete[] pFoo1;
+    free(pFoo2);
+
+    printf("End Test Method 04\n");
+}
+*/
 int main()
 {
     TestMethod01();
     TestMethod02();
     TestMethod03();
+    //TestMethod04();
     return 0;
 }

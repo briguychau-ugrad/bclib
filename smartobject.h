@@ -23,14 +23,18 @@
 
 #include "helpers.h"
 
-#define SMARTOBJECT public virtual SmartObject
+#ifndef SMARTOBJECT_EXCEPTION
+#define SMARTOBJECT_EXCEPTION "Cannot decrease reference count."
+#endif
+
+#define SMARTOBJECT virtual SmartObject
 
 namespace bclib {
 
 class SmartObject
 {
     template<typename U> friend class SmartPointer;
-    template<typename U, typename V> friend class SmartArray;
+    //template<typename U, typename V> friend class SmartArray;
 
 protected:
     SmartObject() : _refcount(0) {}
@@ -48,10 +52,10 @@ private:
 
     UINT DecReferenceCount()
     {
-        if (_refcount)
-        {
-            _refcount--;
+        if (!_refcount) {
+            throw SMARTOBJECT_EXCEPTION;
         }
+        _refcount--;
         return _refcount;
     }
 };

@@ -86,8 +86,8 @@ public:
 
     SmartPointer & operator =(const SmartPointer &cSource);
     SmartPointer & operator =(T *pSource);
-    operator T *();
-    operator T * &();
+    //operator T *();
+    //operator T * &();
     T * operator ->();
     T ** operator &();
     T operator *();
@@ -115,7 +115,7 @@ T * SmartPointer<T>::remove()
 }
 
 template<typename T>
-SmartPointer<T> & SmartPointer<T>::operator=(const SmartPointer &cSource)
+SmartPointer<T> & SmartPointer<T>::operator =(const SmartPointer &cSource)
 {
     if (_pObject)
     {
@@ -133,7 +133,7 @@ SmartPointer<T> & SmartPointer<T>::operator=(const SmartPointer &cSource)
 }
 
 template<typename T>
-SmartPointer<T> & SmartPointer<T>::operator=(T *pSource)
+SmartPointer<T> & SmartPointer<T>::operator =(T *pSource)
 {
     if (_pObject)
     {
@@ -146,7 +146,7 @@ SmartPointer<T> & SmartPointer<T>::operator=(T *pSource)
     }
     return *this;
 }
-
+/*
 template<typename T>
 SmartPointer<T>::operator T *()
 {
@@ -158,7 +158,7 @@ SmartPointer<T>::operator T * &()
 {
     return _pObject;
 }
-
+*/
 template<typename T>
 T * SmartPointer<T>::operator ->()
 {
@@ -215,6 +215,11 @@ SmartPointer<T>::operator U *()
 {
     return static_cast<U *>(_pObject);
 }
+
+// alias SmartPointer to sptr
+template<typename T>
+using sptr = SmartPointer<T>;
+//typedef SmartPointer sptr;
 
 } // namespace bclib
 
